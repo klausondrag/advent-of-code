@@ -10,6 +10,12 @@ fn main() {
     let reader = BufReader::new(file);
     for line in reader.lines() {
         let line = line.unwrap();
-        println!("{}", line);
+        let puzzle_input = line.parse::<i32>().unwrap();
+        let puzzle_output = solve(puzzle_input);
+        println!("{}: {}", puzzle_input, puzzle_output);
     }
+}
+
+fn solve(input: i32) -> i32 {
+    (input / 2) - 2
 }
