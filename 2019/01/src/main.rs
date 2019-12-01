@@ -1,22 +1,23 @@
 use std::env;
 use std::fs::File;
-use std::io::{BufRead, BufReader, Write};
+use std::io::{BufRead, BufReader};
 
 fn main() {
     let args: Vec<String> = env::args().collect();
     let input_filename = &args[1];
-    let output_filename = &args[2];
 
     let file = File::open(input_filename).unwrap();
     let reader = BufReader::new(file);
-    let mut file = File::create(output_filename).unwrap();
 
+    let mut sum = 0;
     for line in reader.lines() {
         let line = line.unwrap();
         let puzzle_input = line.parse::<i32>().unwrap();
         let puzzle_output = solve(puzzle_input);
-        writeln!(&mut file, "{}", puzzle_output).unwrap();
+        sum += puzzle_output;
     }
+
+    println!("Total fuel requirement: {}", sum);
 }
 
 pub fn solve(input: i32) -> i32 {

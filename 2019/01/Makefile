@@ -1,6 +1,6 @@
 .PHONY: run
 run:
-	cargo run input.txt output.txt
+	cargo run input.txt
 
 .PHONY: test
 test:
