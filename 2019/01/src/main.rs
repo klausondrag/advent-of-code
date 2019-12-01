@@ -16,6 +16,18 @@ fn main() {
     }
 }
 
-fn solve(input: i32) -> i32 {
+pub fn solve(input: i32) -> i32 {
     (input / 2) - 2
+}
+
+#[cfg(test)]
+mod tests {
+    #[test]
+    fn examples() {
+        use super::*;
+        let inputs = vec![12, 14, 1969, 100756];
+        let solutions = vec![2, 2, 654, 33583];
+        let outputs: Vec<i32> = inputs.into_iter().map(solve).collect();
+        assert_eq!(solutions, outputs);
+    }
 }
