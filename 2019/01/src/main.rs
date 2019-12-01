@@ -17,7 +17,7 @@ fn main() {
 }
 
 pub fn solve(input: i32) -> i32 {
-    (input / 2) - 2
+    (input / 3) - 2
 }
 
 #[cfg(test)]
