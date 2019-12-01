@@ -5,3 +5,7 @@ run:
 .PHONY: test
 test:
 	cargo test
+
+.PHONY: speed
+speed:
+	cargo test -- --nocapture --ignored
