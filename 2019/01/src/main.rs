@@ -1,18 +1,21 @@
 use std::env;
 use std::fs::File;
-use std::io::{BufRead, BufReader};
+use std::io::{BufRead, BufReader, Write};
 
 fn main() {
     let args: Vec<String> = env::args().collect();
-    let filename = &args[1];
-    println!("In file {}", filename);
-    let file = File::open(filename).unwrap();
+    let input_filename = &args[1];
+    let output_filename = &args[2];
+
+    let file = File::open(input_filename).unwrap();
     let reader = BufReader::new(file);
+    let mut file = File::create(output_filename).unwrap();
+
     for line in reader.lines() {
         let line = line.unwrap();
         let puzzle_input = line.parse::<i32>().unwrap();
         let puzzle_output = solve(puzzle_input);
-        println!("{}: {}", puzzle_input, puzzle_output);
+        writeln!(&mut file, "{}", puzzle_output).unwrap();
     }
 }
 
