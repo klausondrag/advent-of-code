@@ -48,18 +48,20 @@ mod tests {
     #[test]
     fn examples_part1() {
         use super::*;
-        let inputs = vec![12, 14, 1969, 100756];
         let solutions = vec![2, 2, 654, 33583];
-        let outputs: Vec<i32> = inputs.into_iter().map(solve_part1).collect();
-        assert_eq!(solutions, outputs);
+        examples_helper(&solve_part1, solutions);
     }
 
     #[test]
     fn examples_part2() {
         use super::*;
-        let inputs = vec![12, 14, 1969, 100756];
         let solutions = vec![2, 2, 966, 50346];
-        let outputs: Vec<i32> = inputs.into_iter().map(solve_part2).collect();
+        examples_helper(&solve_part2, solutions);
+    }
+
+    fn examples_helper(f: &dyn Fn(i32) -> i32, solutions: Vec<i32>) {
+        let inputs = vec![12, 14, 1969, 100756];
+        let outputs: Vec<i32> = inputs.into_iter().map(f).collect();
         assert_eq!(solutions, outputs);
     }
 
@@ -75,12 +77,7 @@ mod tests {
                 required_fuel + fuel_for_fuel
             }
         }
-        let n_loops = 1_000_000;
-        let naive_time = timeit_loops!(n_loops, {
-            let inputs = vec![12, 14, 1969, 100756];
-            let _outputs: Vec<i32> = inputs.into_iter().map(solve_part2_naive).collect();
-        });
-        println!("Time for {} loops naive : {}", n_loops, naive_time);
+        speed(&solve_part2_naive, &"naive");
     }
 
     #[test]
@@ -98,11 +95,15 @@ mod tests {
                 }
             }
         }
+        speed(&solve_part2_cached, &"cached");
+    }
+
+    fn speed(f: &dyn Fn(i32) -> i32, description: &str) {
         let n_loops = 1_000_000;
         let time = timeit_loops!(n_loops, {
             let inputs = vec![12, 14, 1969, 100756];
-            let _outputs: Vec<i32> = inputs.into_iter().map(solve_part2_cached).collect();
+            let _outputs: Vec<i32> = inputs.into_iter().map(f).collect();
         });
-        println!("Time for {} loops cached: {}", n_loops, time);
+        println!("Time for {} loops {:<6}: {:.10}", n_loops, description, time);
     }
 }
