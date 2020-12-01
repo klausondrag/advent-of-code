@@ -7,40 +7,54 @@ pub(crate) fn process(input_filename: &str) {
     let file = File::open(input_filename).unwrap();
     let reader = BufReader::new(file);
 
-    const TARGET_SUM: i32 = 2020;
-    let mut cache: HashMap<i32, i32> = HashMap::new();
+    let mut input_numbers = Vec::new();
     for line in reader.lines() {
         let line = line.unwrap();
         let input_number = line.parse::<i32>().unwrap();
-
-        let missing_number = cache.get(&input_number);
-        match missing_number {
-            Some(x) => {
-                let result = x * input_number;
-                println!(
-                    "Found Numbers.\n{} + {} = {}\n{} * {} = {}",
-                    x, input_number, TARGET_SUM, x, input_number, result
-                );
-                return;
-            }
-            None => {
-                let difference = TARGET_SUM - input_number;
-                cache.insert(difference, input_number);
-            },
-        }
+        input_numbers.push(input_number);
     }
 
-    println!("Error: No numbers adding up to {} found!", TARGET_SUM);
-    exit(0x011);
+    const TARGET_SUM: i32 = 2020;
+    let solution = solve(input_numbers, TARGET_SUM);
+
+    match solution {
+        Some((a, b)) => {
+            let result = a * b;
+            println!(
+                "Found Numbers.\n{} + {} = {}\n{} * {} = {}",
+                a, b, TARGET_SUM, a, b, result
+            );
+        }
+        None => {
+            println!("Error: No numbers adding up to {} found!", TARGET_SUM);
+            exit(0x011);
+        }
+    }
+}
+
+fn solve(input_numbers: Vec<i32>, target_sum: i32) -> Option<(i32, i32)> {
+    let mut cache: HashMap<i32, i32> = HashMap::new();
+    for input_number in input_numbers {
+        let missing_number = cache.get(&input_number);
+        match missing_number {
+            Some(missing_number) => return Some((*missing_number, input_number)),
+            None => {
+                let difference = target_sum - input_number;
+                cache.insert(difference, input_number);
+            }
+        }
+    }
+    None
 }
 
 #[cfg(test)]
 mod tests {
     #[test]
-    fn examples() {
-        let inputs = vec![12, 14, 1969, 100756];
-        let solutions = vec![2, 2, 654, 33583];
-        let outputs: Vec<i32> = inputs.into_iter().map(super::solve).collect();
-        assert_eq!(solutions, outputs);
+    fn example() {
+        const TARGET_SUM: i32 = 2020;
+        let input_numbers = vec![1721, 979, 366, 299, 675, 1456];
+        let solution = Some((1721, 299));
+        let output = super::solve(input_numbers, TARGET_SUM);
+        assert_eq!(solution, output);
     }
 }
