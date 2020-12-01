@@ -1,4 +1,5 @@
 mod day_01_part_1;
+mod day_01_part_2;
 
 use std::collections::HashMap;
 use std::path::Path;
@@ -18,6 +19,7 @@ fn main() {
 
     let mut programs: HashMap<String, fn(&str) -> ()> = HashMap::new();
     programs.insert(String::from("01-1"), day_01_part_1::process);
+    programs.insert(String::from("01-2"), day_01_part_2::process);
 
     let key = day.to_owned() + "-" + part;
     let program = programs.get(&key);
