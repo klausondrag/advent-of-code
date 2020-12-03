@@ -27,7 +27,8 @@ pub(crate) fn process(input_filename: &str) {
         }
         None => {
             println!("Error: No numbers adding up to {} found!", TARGET_SUM);
-            exit(0x011);
+            // error specification: 9XXYZ for the Z-th error of day XX part Y
+            exit(90120);
         }
     }
 }
