@@ -61,21 +61,21 @@ pub(crate) fn process(input_filename: &str) {
                     exit(90420);
                 }
                 let key = pair[0];
-                let value: String = pair[1].parse().unwrap();
+                let value = pair[1];
                 match key {
-                    "byr" => passport.byr = parse_int(&*value),
-                    "iyr" => passport.iyr = parse_int(&*value),
-                    "eyr" => passport.eyr = parse_int(&*value),
+                    "byr" => passport.byr = parse_int(value),
+                    "iyr" => passport.iyr = parse_int(value),
+                    "eyr" => passport.eyr = parse_int(value),
                     "hgt" => {
-                        for group in hgt_regex.captures_iter(&*value) {
+                        for group in hgt_regex.captures_iter(value) {
                             passport.hgt_value = parse_int(&*group[1].to_string());
                             passport.hgt_unit = Some(group[2].to_string());
                         }
                     }
-                    "hcl" => passport.hcl = Some(value),
-                    "ecl" => passport.ecl = Some(value),
-                    "pid" => passport.pid = Some(value),
-                    "cid" => passport.cid = Some(value),
+                    "hcl" => passport.hcl = Some(value.to_string()),
+                    "ecl" => passport.ecl = Some(value.to_string()),
+                    "pid" => passport.pid = Some(value.to_string()),
+                    "cid" => passport.cid = Some(value.to_string()),
                     _ => {
                         println!("Error: Invalid line `{}`", line);
                         // error specification: 9XXYZ for the Z-th error of day XX part Y
