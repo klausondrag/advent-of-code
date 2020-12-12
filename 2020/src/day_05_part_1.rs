@@ -8,7 +8,7 @@ pub(crate) fn process(input_filename: &str) {
     let mut highest_seat_id = -1;
     for line in reader.lines() {
         let line = line.unwrap();
-        let found_seat_id = solve(line);
+        let found_seat_id = solve1(line);
         if found_seat_id > highest_seat_id {
             highest_seat_id = found_seat_id;
         }
@@ -17,7 +17,7 @@ pub(crate) fn process(input_filename: &str) {
     println!("Found highest seat id: {}", highest_seat_id);
 }
 
-fn solve(seat_instructions: String) -> i32 {
+fn solve1(seat_instructions: String) -> i32 {
     assert_eq!(seat_instructions.len(), 10);
     const N_COLUMNS: i32 = 8;
     let mut lower_row_limit = 0;
@@ -38,17 +38,53 @@ fn solve(seat_instructions: String) -> i32 {
     lower_row_limit * N_COLUMNS + lower_column_limit
 }
 
+fn solve2(seat_instructions: String) -> i32 {
+    assert_eq!(seat_instructions.len(), 10);
+    let mut row = 0;
+    let mut column = 0;
+    for instruction in seat_instructions.chars() {
+        match instruction {
+            'F' => row <<= 1,
+            'B' => row = (row << 1) | 1,
+            'L' => column <<= 1,
+            'R' => column = (column << 1) | 1,
+            _ => panic!(90511),
+        }
+    }
+    return row * 8 + column
+}
+
+fn solve3(seat_instructions: String) -> i32 {
+    assert_eq!(seat_instructions.len(), 10);
+    let mut seat: u16 = 0;
+    for (index, instruction) in seat_instructions.chars().enumerate() {
+        match instruction {
+            'B' | 'R' => {
+                seat |= 1 << (9 - index);
+            },
+            'F' | 'L' => {},
+            _ => panic!(90512),
+
+        }
+    }
+    seat as i32
+}
+
 #[cfg(test)]
 mod tests {
     #[test]
-    fn example() {
+    fn examples() {
         let inputs = vec![
             String::from("BFFFBBFRRR"),
             String::from("FFFBBBFRRR"),
             String::from("BBFFBBFRLL"),
         ];
         let solutions = vec![567, 119, 820];
-        let outputs: Vec<i32> = inputs.into_iter().map(super::solve).collect();
-        assert_eq!(solutions, outputs);
+        let outputs1: Vec<i32> = inputs.clone().into_iter().map(super::solve1).collect();
+        let outputs2: Vec<i32> = inputs.clone().into_iter().map(super::solve2).collect();
+        let outputs3: Vec<i32> = inputs.clone().into_iter().map(super::solve3).collect();
+        assert_eq!(solutions, outputs1);
+        assert_eq!(solutions, outputs2);
+        assert_eq!(solutions, outputs3);
     }
 }
