@@ -29,12 +29,12 @@ pub(crate) fn process(input_filename: &str) {
                 "acc" => Command::Accumulator,
                 "jmp" => Command::Jump,
                 "nop" => Command::NoOperation,
-                _ => panic!(90810),
+                _ => panic!(90820),
             };
             let sign = match capture.get(2).unwrap().as_str() {
                 "+" => 1,
                 "-" => -1,
-                _ => panic!(90811),
+                _ => panic!(90821),
             };
             let number = i32::from_str(capture.get(3).unwrap().as_str()).unwrap();
             let operation = Operation {
@@ -45,16 +45,17 @@ pub(crate) fn process(input_filename: &str) {
         }
     }
 
-    let last_value = solve(input);
-
-    println!("Last value in Accumulator: {}", last_value);
+    match solve(input) {
+        None => panic!(90822),
+        Some(last_value) => println!("Last value in Accumulator: {}", last_value),
+    }
 }
 
-fn solve(input: Vec<Operation>) -> i32 {
+fn solve(input: Vec<Operation>) -> Option<i32> {
     match run_program(input.clone()) {
         None => {}
         Some(accumulator) => {
-            return accumulator;
+            return Some(accumulator);
         }
     }
 
@@ -88,14 +89,14 @@ fn solve(input: Vec<Operation>) -> i32 {
                 match run_program(alternative_operations) {
                     None => {}
                     Some(accumulator) => {
-                        return accumulator;
+                        return Some(accumulator);
                     }
                 }
             }
         }
     }
 
-    0
+    None
 }
 
 fn run_program(input: Vec<Operation>) -> Option<i32> {
@@ -178,6 +179,9 @@ mod tests {
         ];
         let solution = 8;
         let output = super::solve(input);
-        assert_eq!(solution, output);
+        match output {
+            Some(output) => assert_eq!(solution, output),
+            None => assert!(false),
+        }
     }
 }

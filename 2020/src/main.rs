@@ -14,6 +14,8 @@ mod day_07_part_1;
 mod day_07_part_2;
 mod day_08_part_1;
 mod day_08_part_2;
+mod day_09_part_1;
+mod day_09_part_2;
 
 use std::collections::HashMap;
 use std::path::Path;
@@ -48,6 +50,8 @@ fn main() {
     programs.insert(String::from("07-2"), day_07_part_2::process);
     programs.insert(String::from("08-1"), day_08_part_1::process);
     programs.insert(String::from("08-2"), day_08_part_2::process);
+    programs.insert(String::from("09-1"), day_09_part_1::process);
+    programs.insert(String::from("09-2"), day_09_part_2::process);
 
     let key = day.to_owned() + "-" + part;
     let program = programs.get(&key);
