@@ -17,6 +17,7 @@ pub(crate) fn process(input_filename: &str) {
     println!("Found highest seat id: {}", highest_seat_id);
 }
 
+#[allow(dead_code)]
 fn solve1(seat_instructions: String) -> i32 {
     assert_eq!(seat_instructions.len(), 10);
     const N_COLUMNS: i32 = 8;
@@ -38,6 +39,7 @@ fn solve1(seat_instructions: String) -> i32 {
     lower_row_limit * N_COLUMNS + lower_column_limit
 }
 
+#[allow(dead_code)]
 fn solve2(seat_instructions: String) -> i32 {
     assert_eq!(seat_instructions.len(), 10);
     let mut row = 0;
@@ -51,9 +53,10 @@ fn solve2(seat_instructions: String) -> i32 {
             _ => panic!(90511),
         }
     }
-    return row * 8 + column
+    return row * 8 + column;
 }
 
+#[allow(dead_code)]
 fn solve3(seat_instructions: String) -> i32 {
     assert_eq!(seat_instructions.len(), 10);
     let mut seat: u16 = 0;
@@ -61,10 +64,9 @@ fn solve3(seat_instructions: String) -> i32 {
         match instruction {
             'B' | 'R' => {
                 seat |= 1 << (9 - index);
-            },
-            'F' | 'L' => {},
+            }
+            'F' | 'L' => {}
             _ => panic!(90512),
-
         }
     }
     seat as i32
