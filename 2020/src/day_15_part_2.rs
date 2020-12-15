@@ -50,6 +50,7 @@ fn solve(input_numbers: Vec<usize>, nth_spoken_number: usize) -> usize {
 #[cfg(test)]
 mod tests {
     #[test]
+    #[ignore]
     fn example() {
         const NTH_SPOKEN_NUMBER: usize = 30000000;
         let inputs: Vec<Vec<usize>> = vec![
