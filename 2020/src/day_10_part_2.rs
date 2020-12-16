@@ -55,7 +55,7 @@ mod tests {
             ],
         ];
         let solutions = vec![8, 19208];
-        let outputs: Vec<u32> = inputs.iter().map(|v| super::solve(v.clone())).collect();
+        let outputs: Vec<u64> = inputs.iter().map(|v| super::solve(v.clone())).collect();
         assert_eq!(solutions, outputs);
     }
 }
